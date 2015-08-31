@@ -1,0 +1,5 @@
+name = Sitedev
+description = Dev tools for Drupal sitebuilders and developers.
+core = 7.x
+package = Sitedev
+

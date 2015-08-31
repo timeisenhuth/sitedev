@@ -1,0 +1,35 @@
+<?php
+
+function sitedev_form_alter(&$form, &$form_state, $form_id) {
+
+  if (strpos($form_id, '_node_form') > 0) {
+    dpm($form_id);
+    dpm($form);
+    $node = $form['#node'];
+
+    foreach ($form as $key => $value) {
+      if (is_array($value)) {
+        // Is it a field?
+        if (isset($value[LANGUAGE_NONE]['#field_name'])) {
+          if (!isset($form[$key][LANGUAGE_NONE]['#title'])) {
+            $x=0;
+          }
+          $form[$key][LANGUAGE_NONE]['#title'] = $form[$key][LANGUAGE_NONE]['#title'] . ' (<a class="sitedev-field-info" data-field-name="' . $key . '" data-content-type="' . $node->type . '">?</a>)';
+        }
+      }
+    }
+
+    // Add this modules JS.
+    $form['#attached']['js'][] = array(
+      'type' => 'file',
+      'data' => drupal_get_path('module', 'sitedev') . '/js/sitedev.js',
+    );
+
+    // Outupt all fields and their modules.
+    //foreach ($fields as $name => $data) {
+      //dpm($name . ' => ' . $data['widget']['module']);
+    //}
+
+
+  }
+}
